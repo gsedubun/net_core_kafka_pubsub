@@ -12,23 +12,26 @@ namespace kafka_consumer
         {
             Console.WriteLine("Hello kafka consumer...!");
 
-	    var config = new Dictionary<string, object>{
-	    	{ "group.id", "sample-consumer" },
-		{ "bootstrap.servers", "localhost:9092" },
-		{ "enable.auto.commit", "false" }	    
-	    };
+            var config = new Dictionary<string, object>{
+            { "group.id", "sample-consumer" },
+        { "bootstrap.servers", "localhost:9092" },
+        { "enable.auto.commit", "false" }
+        };
 
-	    using( var consumer = new Consumer<Null, string>(config, null, new StringDeserializer(Encoding.UTF8)) ){
-	    	consumer.Subscribe(new string[]{"hello-topic"});
-		consumer.OnMessage+=(_, msg) =>{
-			Console.WriteLine($"Topic: {msg.Topic} Partition: {msg.Partition} Offset: {msg.Offset} { msg.Value}");
-			consumer.CommitAsync(msg);
-		
-		};
-		while(true){
-			consumer.Poll(100);
-		}
-	    }
+            using (var consumer = new Consumer<Null, string>(config, null, new StringDeserializer(Encoding.UTF8)))
+            {
+                consumer.Subscribe(new string[] { "hello-topic" });
+                consumer.OnMessage += (_, msg) =>
+                {
+                    Console.WriteLine($"Topic: {msg.Topic} Partition: {msg.Partition} Offset: {msg.Offset} { msg.Value}");
+                    consumer.CommitAsync(msg);
+
+                };
+                while (true)
+                {
+                    consumer.Poll(100);
+                }
+            }
         }
     }
 }

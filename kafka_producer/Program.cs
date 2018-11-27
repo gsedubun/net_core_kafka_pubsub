@@ -12,22 +12,23 @@ namespace kafka_producer
         {
             Console.WriteLine("Hello kafka producer...!");
 
-	    var config = new Dictionary<string, object>{
-	    	{ "bootstrap.servers", "localhost:9092" }
-	    
-	    };
+            var config = new Dictionary<string, object>{
+            { "bootstrap.servers", "localhost:9092" }
 
-	    using(var producer = new Producer<Null, string>(config, null, new StringSerializer(Encoding.UTF8)))
-	    {
-	    	string text=null;
-		while(text!="exit"){
-			text = Console.ReadLine();
-			producer.ProduceAsync("hello-topic", null, text);
-		}
+        };
 
-		producer.Flush(100);
+            using (var producer = new Producer<Null, string>(config, null, new StringSerializer(Encoding.UTF8)))
+            {
+                string text = null;
+                while (text != "exit")
+                {
+                    text = Console.ReadLine();
+                    producer.ProduceAsync("hello-topic", null, text);
+                }
 
-	    }
+                producer.Flush(100);
+
+            }
 
         }
     }
