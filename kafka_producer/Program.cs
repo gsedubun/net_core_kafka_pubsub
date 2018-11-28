@@ -20,6 +20,7 @@ namespace kafka_producer
             using (var producer = new Producer<Null, string>(config, null, new StringSerializer(Encoding.UTF8)))
             {
                 string text = null;
+		Console.WriteLine("Producer ready, type message below and press Enter to send it.");
                 while (text != "exit")
                 {
                     text = Console.ReadLine();
